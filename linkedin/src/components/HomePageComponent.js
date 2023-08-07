@@ -12,7 +12,6 @@ export default function HomePageComponent() {
 
     const changebody = (bodyComponentName, event) => {
         event.preventDefault();
-        console.log("hello world");
         if(bodyComponentName === "login") setBody(<LoginComponent/>);
         else if(bodyComponentName === "register") setBody(<RegisterComponent/>);
         else if(bodyComponentName === "home") setBody(<Home/>)

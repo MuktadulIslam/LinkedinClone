@@ -10,7 +10,6 @@ export default function UserProfileComponent() {
 
     const changebody = (bodyComponentName, event) => {
         event.preventDefault();
-        console.log("hello world");
         if(bodyComponentName === "profile") setBody(<UserProfileHomePage/>);
         else if(bodyComponentName === "post") setBody(<PostPageComponent/>);
         else if(bodyComponentName === "notification") setBody(<NotificationComponent/>)
