@@ -3,6 +3,7 @@ const cors = require("cors");
 const app = express();
 app.use(express.json());
 app.use(cors());
+const database = require('./util/firebase')
 
 const User = require('./util/user-database');
 const Posts = require('./util/post-database');
@@ -68,7 +69,7 @@ app.post('/post', async (req, res) => {
         await Posts.add(post);
         res.send({ message: constant.SUCCESS });
     }
-    catch(error) {
+    catch (error) {
         console.log(error);
         res.send({ message: constant.SERVER_ERROR });
     }
@@ -79,22 +80,28 @@ app.post('/post', async (req, res) => {
 
 
 app.post('/allpost', async (req, res) => {
+    const userRef = database.ref("users");
 
-    const responsedata = await Posts.get()
-      .catch(error => {
-        console.error('Error adding document: ', error);
-        res.send({ message: 'error' });
-      });
-  
-    if (responsedata) {
-      let dataArray = [];
-      responsedata.forEach(doc => {
-        dataArray.push(doc.data());
-      })
-  
-      res.send(dataArray);
-    }
-  })
+    userRef.on("value", (snapshot) => {
+        console.log("The user data has changed:");
+        console.log(snapshot.val());
+    });
+
+    // const responsedata = await Posts.get()
+    //   .catch(error => {
+    //     console.error('Error adding document: ', error);
+    //     res.send({ message: 'error' });
+    //   });
+
+    // if (responsedata) {
+    //   let dataArray = [];
+    //   responsedata.forEach(doc => {
+    //     dataArray.push(doc.data());
+    //   })
+
+    //   res.send(dataArray);
+    // }
+})
 
 
 
