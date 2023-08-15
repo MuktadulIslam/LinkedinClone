@@ -4,13 +4,13 @@ import Axios from 'axios';
 import { ListGroup, ListGroupItem } from 'react-bootstrap';
 
 export default function Notification(props) {
-	
+
 	const day = 7;
 	const hour = 0;
 	const min = 0;
 	const sec = 0;
-	const maxNotificationAge = (day*24*3600 + hour*3600 + min*60 + sec)*1000;
-	
+	const maxNotificationAge = (day * 24 * 3600 + hour * 3600 + min * 60 + sec) * 1000;
+
 	let loadFirstTime = false;
 	const user = props.user;
 	const [allNotifications, setAllNotifications] = useState([]);
@@ -38,10 +38,10 @@ export default function Notification(props) {
 	}, []);
 
 
-	const removeNotification = async(event, postID) => {
+	const removeNotification = async (event, postID) => {
 		event.preventDefault();
 
-		const formData = {email: user.email, postID: postID};
+		const formData = { email: user.email, postID: postID };
 		await Axios.post(constant.SERVER_IP + "removeNotification", formData).then((response) => {
 			if (response.data.message == constant.SUCCESS) {
 				setAllNotifications(allNotifications.filter(item => item.postID !== postID));
@@ -79,22 +79,24 @@ export default function Notification(props) {
 	}
 
 	return (
-		<div className="container mt-4">
-			<h4>Notifications</h4>
-			<ListGroup>
-				{allNotifications.map(notification => (
-					new Date()-new Date(notification.date) < maxNotificationAge ? (
-					<ListGroupItem key={notification.postID}>
-						<div className="d-flex justify-content-between align-items-center">
-							<div><strong>{notification.name}</strong> added a post  ({getPostTime(notification.date)})</div>
-							<div>
-								<button onClick={(e) => removeNotification(e,notification.postID)}>Mark As Read</button>
-							</div>
-						</div>
-					</ListGroupItem>
-					) : null
-				))}
-			</ListGroup>
-		</div>
+		<>
+			<div className="container mt-4">
+				<h4>Notifications</h4>
+				<ListGroup>
+					{allNotifications.map(notification => (
+						new Date() - new Date(notification.date) < maxNotificationAge ? (
+							<ListGroupItem key={notification.postID}>
+								<div className="d-flex justify-content-between align-items-center">
+									<div><strong>{notification.name}</strong> added a post  ({getPostTime(notification.date)})</div>
+									<div>
+										<button onClick={(e) => removeNotification(e, notification.postID)}>Mark As Read</button>
+									</div>
+								</div>
+							</ListGroupItem>
+						) : null
+					))}
+				</ListGroup>
+			</div>
+		</>
 	);
 };

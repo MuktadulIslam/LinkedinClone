@@ -67,6 +67,17 @@ export default function HomePage(props) {
                                                 <p>{post.article}</p>
                                             </div>
                                         </div>
+
+                                        {post.email !== user.email ?
+                                            (<>
+                                                <img alt='post image' src={post.image}
+                                                    style={{
+                                                        width: '100%',
+                                                        border: '2px solid black'
+                                                    }} />
+                                            </>)
+                                            : null
+                                        }
                                     </div>
                                 ) : null
                             ))}
